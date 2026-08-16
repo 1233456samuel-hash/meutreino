@@ -304,7 +304,7 @@
         <button onclick="fecharBannerInstall()">✖</button>
     </div>
 
-    <h1>💪 Meu Painel de Treinos</h1>
+    <h1>💪 Meuu Painel de Treinos</h1>
 
     <div class="user-profile">
         <div class="user-name-wrapper">
@@ -651,8 +651,8 @@
                 const nome = localStorage.getItem('meuTreino_nomeAluno') || 'Atleta';
                 const mensagem = `✅ Treino atualizado com sucesso!\n👤 Nome: ${nome}\n🔥 Exercícios concluídos na semana: ${total}\n\n"Disciplina é fazer o que precisa ser feito!"`;
                 
-                // Deep link corrigido para forçar abertura do app nativo do WhatsApp no celular
-                window.location.href = `whatsapp://send?text=${encodeURIComponent(mensagem)}`;
+                // Link universal da API web do WhatsApp que abre o aplicativo nativo perfeitamente no celular
+                window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(mensagem)}`, '_blank');
             }
         }
 
