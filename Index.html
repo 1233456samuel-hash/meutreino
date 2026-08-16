@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#000000">
-    <!-- Adicionando suporte para instalação em Tela Cheia (PWA) -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -40,8 +39,6 @@
             padding-bottom: 100px;
             min-height: 100vh;
         }
-
-        /* Banner de Instalação do App */
         .install-banner {
             background-color: rgba(0, 0, 0, 0.85);
             border-bottom: 2px solid var(--accent-color);
@@ -62,7 +59,6 @@
             cursor: pointer;
             padding: 0 10px;
         }
-
         h1 {
             text-align: center;
             font-size: 1.5rem;
@@ -70,8 +66,6 @@
             color: #fff;
             text-shadow: 2px 2px 8px rgba(0,0,0,1);
         }
-
-        /* Perfil do Usuário e Ofensiva */
         .user-profile {
             background-color: rgba(0, 0, 0, 0.7);
             border: 1px solid var(--border-color);
@@ -97,11 +91,10 @@
         }
         .streak-counter {
             font-size: 1.1rem;
-            color: #ff9800; /* Cor do foguinho */
+            color: #ff9800;
             font-weight: bold;
             text-shadow: 1px 1px 3px rgba(0,0,0,1);
         }
-        
         .music-player {
             max-width: 400px;
             margin: 0 auto 20px auto;
@@ -112,11 +105,7 @@
             background-color: rgba(0, 0, 0, 0.8);
             padding: 10px;
         }
-        audio {
-            width: 100%;
-            outline: none;
-        }
-
+        audio { width: 100%; outline: none; }
         .teacher-notes {
             max-width: 600px;
             margin: 0 auto 20px auto;
@@ -139,8 +128,6 @@
             color: #e2e8f0;
             transition: opacity 0.5s ease-in-out;
         }
-
-        /* Botões Globais (WhatsApp e Limpar) */
         .action-buttons {
             display: flex;
             flex-direction: column;
@@ -173,7 +160,6 @@
             transition: 0.2s;
         }
         .btn-whatsapp:active, .btn-clear:active { transform: scale(0.95); }
-
         .tabs {
             display: flex;
             justify-content: center;
@@ -230,7 +216,6 @@
             font-weight: bold;
         }
         tr:last-child td { border-bottom: none; }
-        
         .load-input {
             width: 60px;
             padding: 6px;
@@ -248,7 +233,6 @@
             accent-color: var(--accent-color);
             cursor: pointer;
         }
-
         a.video-link {
             background-color: rgba(220, 38, 38, 0.3); 
             color: #fecaca; 
@@ -260,7 +244,6 @@
             transition: 0.2s;
             border: 1px solid rgba(220, 38, 38, 0.5);
         }
-        
         .timer-bar {
             position: fixed;
             bottom: 0;
@@ -312,7 +295,6 @@
 </head>
 <body>
 
-    <!-- Banner PWA (Ensina a colocar em Tela Cheia) -->
     <div id="install-banner" class="install-banner" style="display: none;">
         <span>📲 Para melhor experiência, adicione este painel à Tela Inicial do seu celular!</span>
         <button onclick="fecharBannerInstall()">✖</button>
@@ -320,7 +302,6 @@
 
     <h1>💪 Meu Painel de Treinos</h1>
 
-    <!-- Perfil Dinâmico do Aluno -->
     <div class="user-profile">
         <div class="user-name-wrapper">
             Olá, <span id="nome-aluno">Atleta</span> 
@@ -343,7 +324,6 @@
         <span id="texto-dica">Carregando dica...</span>
     </div>
 
-    <!-- Botões de Ação (Compartilhar e Reset) -->
     <div class="action-buttons">
         <button class="btn-whatsapp" onclick="enviarRelatorio()">
             ✅ Compartilhar / Salvar Treino Concluído
@@ -361,7 +341,6 @@
         <button class="tab-btn" onclick="openTab(event, 'treinoD')">Treino D</button>
     </div>
 
-    <!-- AQUECIMENTO -->
     <div id="aquecimento" class="table-container active">
         <table>
             <thead>
@@ -385,7 +364,6 @@
         </table>
     </div>
 
-    <!-- TREINO A: Peito, Ombro e Tríceps -->
     <div id="treinoA" class="table-container">
         <table>
             <thead>
@@ -435,7 +413,6 @@
         </table>
     </div>
 
-    <!-- TREINO B: Pernas (Foco Quadríceps) -->
     <div id="treinoB" class="table-container">
         <table>
             <thead>
@@ -485,7 +462,6 @@
         </table>
     </div>
 
-    <!-- TREINO C: Costas, Bíceps e Abdômen -->
     <div id="treinoC" class="table-container">
         <table>
             <thead>
@@ -543,7 +519,6 @@
         </table>
     </div>
 
-    <!-- TREINO D: Pernas (Foco Posterior e Glúteos) -->
     <div id="treinoD" class="table-container">
         <table>
             <thead>
@@ -593,7 +568,6 @@
         </table>
     </div>
 
-    <!-- Cronômetro Flutuante no Rodapé -->
     <div class="timer-bar">
         <div class="timer-title">⏱️ Tempo de Descanso</div>
         <div class="timer-controls">
@@ -605,7 +579,6 @@
     </div>
 
     <script>
-        // 1. Função das Abas
         function openTab(evt, treinoName) {
             const containers = document.querySelectorAll('.table-container');
             containers.forEach(container => container.classList.remove('active'));
@@ -615,17 +588,13 @@
             evt.currentTarget.classList.add('active');
         }
 
-        // 2. Sistema de Memória (Nome, Inputs e Ofensiva)
         document.addEventListener("DOMContentLoaded", () => {
-            // Carrega Nome
             const nomeSalvo = localStorage.getItem('meuTreino_nomeAluno');
             if(nomeSalvo) document.getElementById('nome-aluno').textContent = nomeSalvo;
 
-            // Carrega Foguinhos
             const streakSalvo = localStorage.getItem('meuTreino_streak');
             if(streakSalvo) document.getElementById('streak-count').textContent = streakSalvo;
 
-            // Carrega Inputs e Checkboxes
             const todosInputs = document.querySelectorAll('input');
             todosInputs.forEach((input, index) => {
                 const chaveMemoria = 'meuTreino_campo_' + index;
@@ -640,14 +609,12 @@
                 });
             });
 
-            // Verifica Tela Cheia (PWA)
             const jaViuInstall = localStorage.getItem('meuTreino_viuInstall');
             if (!window.matchMedia('(display-mode: standalone)').matches && !jaViuInstall) {
                 document.getElementById('install-banner').style.display = 'flex';
             }
         });
 
-        // 3. Edição do Nome
         function editarNome() {
             const nomeAtual = document.getElementById('nome-aluno').textContent;
             const novoNome = prompt("Qual é o seu nome ou apelido?", nomeAtual === "Atleta" ? "" : nomeAtual);
@@ -657,13 +624,11 @@
             }
         }
 
-        // 4. Envio de Registro/Compartilhamento (WhatsApp Aberto)
         function enviarRelatorio() {
             let streak = parseInt(localStorage.getItem('meuTreino_streak') || '0');
             const ultimoRegistro = localStorage.getItem('meuTreino_ultimoRegistro');
             const dataHoje = new Date().toDateString();
 
-            // Só aumenta o foguinho 1 vez por dia
             if (ultimoRegistro !== dataHoje) {
                 streak += 1;
                 localStorage.setItem('meuTreino_streak', streak);
@@ -672,17 +637,11 @@
             }
 
             const nome = localStorage.getItem('meuTreino_nomeAluno') || 'Atleta';
-            
-            // Nova mensagem com cara de diário de treino
             const mensagem = `✅ Treino concluído com sucesso!\n👤 Nome: ${nome}\n🔥 Ofensiva da semana: ${streak} treino(s)\n\n"Disciplina é fazer o que precisa ser feito!"`;
-            
-            // Link do WhatsApp sem número. Abre a tela "Encaminhar para..." no celular do usuário
             const linkWhatsapp = `https://wa.me/?text=${encodeURIComponent(mensagem)}`;
-            
             window.open(linkWhatsapp, '_blank');
         }
 
-        // 5. Apagar Tudo (Zerar Semana)
         function limparTreinos() {
             if(confirm("Deseja apagar as cargas, checklists e reiniciar sua contagem de treinos da semana?")) {
                 localStorage.clear();
@@ -690,13 +649,11 @@
             }
         }
 
-        // 6. Fechar Banner Install
         function fecharBannerInstall() {
             document.getElementById('install-banner').style.display = 'none';
             localStorage.setItem('meuTreino_viuInstall', 'true');
         }
 
-        // 7. Sistema de Dicas
         const dicasAutocuidado = [
             "Beba água! 💧 A hidratação previne cãibras e ajuda no músculo.",
             "O músculo cresce no descanso! 😴 Tente dormir bem à noite.",
@@ -718,7 +675,6 @@
         setInterval(mudarDica, 10000);
         setTimeout(mudarDica, 100);
 
-        // 8. Cronômetro
         let countdown;
         const timerDisplay = document.getElementById('time');
         function startTimer(seconds) {
