@@ -130,36 +130,40 @@
         }
         .action-buttons {
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             gap: 10px;
-            max-width: 400px;
+            max-width: 100%;
             margin: 0 auto 20px auto;
+            justify-content: center;
+        }
+        .btn-finish {
+            background-color: var(--whatsapp-color);
+            color: white;
+            border: none;
+            padding: 12px 10px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            flex: 1;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: 0.2s;
         }
         .btn-clear {
             background-color: rgba(255, 255, 255, 0.1);
             color: white;
             border: 1px solid var(--border-color);
-            padding: 12px 20px;
+            padding: 12px 10px;
             border-radius: 8px;
-            font-weight: bold;
+            font-weight: 600;
+            font-size: 0.95rem;
             cursor: pointer;
+            flex: 1;
             text-shadow: 1px 1px 3px rgba(0,0,0,1);
             transition: 0.2s;
         }
-        .btn-whatsapp {
-            background-color: var(--whatsapp-color);
-            color: white;
-            border: none;
-            padding: 14px 20px;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 1.05rem;
-            cursor: pointer;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-            transition: 0.2s;
-        }
-        .btn-whatsapp:active, .btn-clear:active { transform: scale(0.95); }
+        .btn-finish:active, .btn-clear:active { transform: scale(0.95); }
         .tabs {
             display: flex;
             justify-content: center;
@@ -325,11 +329,11 @@
     </div>
 
     <div class="action-buttons">
-        <button class="btn-whatsapp" onclick="enviarRelatorio()">
-            ✅ Compartilhar / Salvar Treino Concluído
+        <button class="btn-finish" onclick="finalizarTreino()">
+            ✅ Finalizar Treino
         </button>
         <button class="btn-clear" onclick="limparTreinos()">
-            🔄 Limpar Memória (Nova Semana)
+            🔄 Limpar Memória
         </button>
     </div>
 
@@ -460,7 +464,7 @@
                 </tr>
             </tbody>
         </table>
-            </div>
+    </div>
         <div id="treinoC" class="table-container">
         <table>
             <thead>
@@ -623,7 +627,7 @@
             }
         }
 
-        function enviarRelatorio() {
+        function finalizarTreino() {
             let streak = parseInt(localStorage.getItem('meuTreino_streak') || '0');
             const ultimoRegistro = localStorage.getItem('meuTreino_ultimoRegistro');
             const dataHoje = new Date().toDateString();
@@ -633,12 +637,17 @@
                 localStorage.setItem('meuTreino_streak', streak);
                 localStorage.setItem('meuTreino_ultimoRegistro', dataHoje);
                 document.getElementById('streak-count').textContent = streak;
+                alert("🎉 Treino finalizado com sucesso! +1 pra conta.");
+            } else {
+                alert("💪 Você já registrou um treino hoje! Continue assim.");
             }
 
-            const nome = localStorage.getItem('meuTreino_nomeAluno') || 'Atleta';
-            const mensagem = `✅ Treino concluído com sucesso!\n👤 Nome: ${nome}\n🔥 Ofensiva da semana: ${streak} treino(s)\n\n"Disciplina é fazer o que precisa ser feito!"`;
-            const linkWhatsapp = `https://wa.me/?text=${encodeURIComponent(mensagem)}`;
-            window.open(linkWhatsapp, '_blank');
+            if(confirm("Deseja compartilhar seu relatório no WhatsApp?")) {
+                const nome = localStorage.getItem('meuTreino_nomeAluno') || 'Atleta';
+                const mensagem = `✅ Treino concluído com sucesso!\n👤 Nome: ${nome}\n🔥 Ofensiva da semana: ${streak} treino(s)\n\n"Disciplina é fazer o que precisa ser feito!"`;
+                const linkWhatsapp = `https://wa.me/?text=${encodeURIComponent(mensagem)}`;
+                window.open(linkWhatsapp, '_blank');
+            }
         }
 
         function limparTreinos() {
@@ -700,5 +709,3 @@
     </script>
 </body>
 </html>
-
-    
