@@ -312,7 +312,7 @@
             <button onclick="editarNome()" class="btn-edit-name" title="Editar Nome">✏️</button>
         </div>
         <div class="streak-counter">
-            🔥 <span id="streak-count">0</span> treinos concluídos na semana
+            🔥 <span id="streak-count">0</span> exercícios concluídos na semana
         </div>
     </div>
 
@@ -591,12 +591,15 @@
             evt.currentTarget.classList.add('active');
         }
 
+        function atualizarContagem() {
+            const total = document.querySelectorAll('.check-set:checked').length;
+            document.getElementById('streak-count').textContent = total;
+            return total;
+        }
+
         document.addEventListener("DOMContentLoaded", () => {
             const nomeSalvo = localStorage.getItem('meuTreino_nomeAluno');
             if(nomeSalvo) document.getElementById('nome-aluno').textContent = nomeSalvo;
-
-            const streakSalvo = localStorage.getItem('meuTreino_streak');
-            if(streakSalvo) document.getElementById('streak-count').textContent = streakSalvo;
 
             const todosInputs = document.querySelectorAll('input');
             todosInputs.forEach((input, index) => {
@@ -607,10 +610,17 @@
                     else if (input.type === 'number') input.value = valorSalvo;
                 }
                 input.addEventListener('change', () => {
-                    if (input.type === 'checkbox') localStorage.setItem(chaveMemoria, input.checked);
-                    else if (input.type === 'number') localStorage.setItem(chaveMemoria, input.value);
+                    if (input.type === 'checkbox') {
+                        localStorage.setItem(chaveMemoria, input.checked);
+                        atualizarContagem();
+                    }
+                    else if (input.type === 'number') {
+                        localStorage.setItem(chaveMemoria, input.value);
+                    }
                 });
             });
+
+            atualizarContagem();
 
             const jaViuInstall = localStorage.getItem('meuTreino_viuInstall');
             if (!window.matchMedia('(display-mode: standalone)').matches && !jaViuInstall) {
@@ -628,30 +638,26 @@
         }
 
         function finalizarTreino() {
-            let streak = parseInt(localStorage.getItem('meuTreino_streak') || '0');
-            const ultimoRegistro = localStorage.getItem('meuTreino_ultimoRegistro');
-            const dataHoje = new Date().toDateString();
-
-            if (ultimoRegistro !== dataHoje) {
-                streak += 1;
-                localStorage.setItem('meuTreino_streak', streak);
-                localStorage.setItem('meuTreino_ultimoRegistro', dataHoje);
-                document.getElementById('streak-count').textContent = streak;
-                alert("🎉 Treino finalizado com sucesso! +1 pra conta.");
-            } else {
-                alert("💪 Você já registrou um treino hoje! Continue assim.");
+            const total = atualizarContagem();
+            
+            if (total === 0) {
+                alert("⚠️ Você ainda não marcou nenhum exercício como feito!");
+                return;
             }
+
+            alert(`🎉 Treino finalizado! Você completou ${total} exercícios nesta semana.`);
 
             if(confirm("Deseja compartilhar seu relatório no WhatsApp?")) {
                 const nome = localStorage.getItem('meuTreino_nomeAluno') || 'Atleta';
-                const mensagem = `✅ Treino concluído com sucesso!\n👤 Nome: ${nome}\n🔥 Ofensiva da semana: ${streak} treino(s)\n\n"Disciplina é fazer o que precisa ser feito!"`;
-                const linkWhatsapp = `https://wa.me/?text=${encodeURIComponent(mensagem)}`;
-                window.open(linkWhatsapp, '_blank');
+                const mensagem = `✅ Treino atualizado com sucesso!\n👤 Nome: ${nome}\n🔥 Exercícios concluídos na semana: ${total}\n\n"Disciplina é fazer o que precisa ser feito!"`;
+                
+                // Deep link corrigido para forçar abertura do app nativo do WhatsApp no celular
+                window.location.href = `whatsapp://send?text=${encodeURIComponent(mensagem)}`;
             }
         }
 
         function limparTreinos() {
-            if(confirm("Deseja apagar as cargas, checklists e reiniciar sua contagem de treinos da semana?")) {
+            if(confirm("Deseja apagar as cargas, checklists e reiniciar sua contagem de exercícios da semana?")) {
                 localStorage.clear();
                 location.reload(); 
             }
