@@ -1,6 +1,7 @@
 {
   "name": "Meus Treinos",
   "short_name": "Treinos",
+  "description": "Painel de controle de treinos, cargas e rotina de exercícios.",
   "start_url": "index.html",
   "display": "standalone",
   "background_color": "#000000",
@@ -10,7 +11,13 @@
       "src": "icone.jpg",
       "sizes": "512x512",
       "type": "image/jpeg",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "icone.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "maskable"
     }
   ]
 }
